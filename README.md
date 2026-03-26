@@ -18,7 +18,7 @@ Integration of the [Corrformer](https://github.com/thuml/Corrformer) by Wu et al
 ### Model: Corrformer
 
 Corrformer is a deep learning architecture based on the transformer architecture, but features spatial cross-correlation and temporal auto-correlation instead of attention mechanisms.
-The original implementation was adapted to work with BasicTS and some module were replaced by their existing BasicTS counterparts (e.g. `MovingAverageDecomposition`).
+The original implementation was adapted to work with BasicTS and some modules were replaced by their existing BasicTS counterparts (e.g. `MovingAverageDecomposition`).
 
 ---
 
