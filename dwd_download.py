@@ -55,7 +55,7 @@ def fetch_stations_coords(cfg) -> pd.DataFrame:
 
 ## IO UTILS
 
-def load_csv_from_disk(path: str):
+def load_csv_from_disk(path: str | Path):
     return pd.read_csv(path)
 
 def save_csv_to_disk(df: pd.DataFrame | pl.DataFrame, path: str):
@@ -67,6 +67,12 @@ def save_csv_to_disk(df: pd.DataFrame | pl.DataFrame, path: str):
         df.fill_nan(math.nan).write_csv(path)
 
 ## PREPROCESSING
+
+def set_dtypes_date_stationid(df):
+    df.date = pd.to_datetime(df.date)
+    df['date'] = df['date'].dt.as_unit('us')
+    df.station_id = df['station_id'].astype(int)
+    return df
 
 def stations_data_completeness(df):
     """
@@ -104,6 +110,7 @@ def preprocess_weather_data(raw_df: pd.DataFrame, top_x_stations: int) -> pd.Dat
 
 def get_spatial_data(cfg, station_ids):
     spatial_data = fetch_stations_coords(cfg)
+    spatial_data["station_id"] = spatial_data["station_id"].astype(int)
     spatial_data = spatial_data[
         spatial_data["station_id"].isin(station_ids)
     ]
@@ -282,12 +289,12 @@ def build_weather_dataset(cfg):
         print(f"Downloading and converting weather data for {dataset_dir}...")
         weather_df = fetch_dwd_data(cfg)
         print("Data fetched successfully!")
-
+    weather_df = set_dtypes_date_stationid(weather_df)
     save_csv_to_disk(weather_df, csv_path)
     print(f"Data saved at {csv_path}")
+
     weather_df = preprocess_weather_data(weather_df, top_x_stations=top_x_stations)
     print("Data is preprocessed")
-
     weather_df = weather_df[["date", "station_id"] + cfg.measurements]
     weather_df = weather_df.set_index(["date", "station_id"]).sort_index()
     dates = weather_df.index.get_level_values("date").unique().to_series()
@@ -296,10 +303,8 @@ def build_weather_dataset(cfg):
     data = stations_df_to_tensor(weather_df)
     print(f"data has {torch.isnan(data).sum()} nan values out of {data.numel()} total values")
     timestamps = create_timestamps(dates)
-
     spatial_data = get_spatial_data(cfg, station_ids)
     save_as_basicts_dataset(data, timestamps, spatial_data, dataset_dir)
-
     print(f"Data saved at {dataset_dir}")
     return weather_df
 
@@ -339,8 +344,8 @@ if __name__ == "__main__":
         "distance": 50,
         "unit": "km"
     }
-    station_filter = None
-    path = "datasets/dwd_weather"
+    #station_filter = None
+    path = "datasets/dwd_weather_test"
     top_x_stations = 480
     ## select top_x_stations:
     # station_stats = stations_data_completeness(df)
