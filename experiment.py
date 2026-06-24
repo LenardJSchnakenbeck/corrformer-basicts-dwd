@@ -8,7 +8,6 @@ from basicts.configs import BasicTSForecastingConfig
 from utils import resolve_config, get_metrics_from_tfevents, log_to_mlflow, ConfigUpdater, get_module
 import optuna
 from copy import deepcopy
-import json
 
 def get_args():
     if len(sys.argv) == 1:
@@ -22,13 +21,15 @@ def get_args():
                         help='experiment name in mlflow')
     parser.add_argument('--task', type=str, required=True,
                         help='task to run', choices=['test', 'train', 'tune'])
-    parser.add_argument('--config_changes', type=json.loads, required=False,
+    parser.add_argument('--config_changes', type=eval, required=False,
                         help='config changes to be applied',
-                        default='{"num_epochs": 1}')
-    parser.add_argument('--hyperparameters', type=json.loads, required=False,
+                        default={"num_epochs": 8})
+    parser.add_argument('--hyperparameters', type=eval, required=False,
                         help='hyperparameters to be optimized',
-                        default='hyperparameters = {"optimizer_params.lr": (float, (1e-5, 1e-2), {"log": True}),'\
-                        '"optimizer_params.weight_decay": (float, (1e-6, 1e-2), {"log": True}),}')
+                        default={
+                            "optimizer_params.lr": (float, (1e-5, 1e-2), {"log": True}),
+                            "optimizer_params.weight_decay": (float, (1e-6, 1e-2), {"log": True}),
+                        })
 
     return parser.parse_args()
 
@@ -64,6 +65,7 @@ def run_experiment(config, mlflow_experiment_name):
 
 def run_tests(config_module_name: str|BasicTSForecastingConfig, expected_input_shape, expected_output_shape):
     class ConfigPlugin:
+        """A pytest plugin that injects test parameters as a fixture into a pytest session."""
         def __init__(self, config, expected_input_shape, expected_output_shape):
             self.config = config
             self.expected_input_shape = expected_input_shape
