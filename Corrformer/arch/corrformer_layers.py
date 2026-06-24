@@ -7,7 +7,7 @@ from basicts.modules.embed import TokenEmbedding, \
 
 
 
-class my_Layernorm(nn.Module): #TODO: Check for double normalization
+class my_Layernorm(nn.Module):
     def __init__(self, channels):
         super(my_Layernorm, self).__init__()
         self.layernorm = nn.LayerNorm(channels)
@@ -84,7 +84,7 @@ class Encoder(nn.Module):
         if self.norm is not None:
             x = self.norm(x)
 
-        return x #TODO: what is x? tensor or layer?
+        return x
 
 
 class DecoderLayer(nn.Module):

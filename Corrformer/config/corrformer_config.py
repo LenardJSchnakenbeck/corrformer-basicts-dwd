@@ -22,7 +22,7 @@ class CorrformerConfig(BasicTSModelConfig):
     c_out: int = field(default=7, metadata={'help': 'output size'})
     dropout: float = field(default=0.05, metadata={"help": "Dropout rate."})
     d_model: int = field(default=512, metadata={"help": "Hidden size; d_model."}) # dimensions of model
-    factor: int = field(default=1, metadata={"help": "Factor in auto-correlation."}) # features, but projected into latent space, so its 1
+    factor: int = field(default=1, metadata={"help": "Factor in auto-correlation."}) # features, but projected into latent search_space, so its 1
     factor_temporal: int = field(default=1, metadata={"help": "Factor in auto-correlation. E.g. year, month, day, hour"})
     factor_spatial: int = field(default=1, metadata={"help": "Factor in auto-correlation. E.g. longitude, latitude and altitude"})
     node_num: int = field(default=100, metadata={"help": "Number of total nodes, must be num_spatial / enc_in"})

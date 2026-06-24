@@ -5,7 +5,7 @@ from .corrformer_layers import Encoder, Decoder, EncoderLayer, DecoderLayer, Dat
 from ..Correlation import MultiCorrelation, CrossCorrelation, CrossCorrelationLayer, AutoCorrelation, AutoCorrelationLayer, CausalConv
 
 from basicts.modules.decomposition import MovingAverageDecomposition as series_decomp
-from basicts.modules.norm import CenteredLayerNorm as my_Layernorm #TODO: test this
+from basicts.modules.norm import CenteredLayerNorm as my_Layernorm
 
 class Corrformer(nn.Module):
     def __init__(self, configs):
