@@ -333,8 +333,8 @@ class FetchDWDWeatherConfig:
 
 if __name__ == "__main__":
     dwd_query = {
-        #"start_date": "2024-01-01",
-        "start_date": "2025-11-30",
+        "start_date": "2024-01-01",
+        #"start_date": "2025-11-30",
         "end_date": "2025-12-31",
         "parameters": ["hourly", "TEMPERATURE_AIR"],
     }
@@ -344,7 +344,7 @@ if __name__ == "__main__":
         "distance": 50,
         "unit": "km"
     }
-    #station_filter = None
+    station_filter = None
     path = "datasets/dwd_weather_test"
     top_x_stations = 480
     ## select top_x_stations:

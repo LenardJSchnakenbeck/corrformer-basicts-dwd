@@ -3,21 +3,29 @@ name = "weather-prediction"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "basicts>=1.1.0",
-    "tensorboard>=2.18.0",
-    "wetterdienst>=0.117.0",
-    "torch>=2.1.0",
-    "torchvision>=0.16.0",
-    "torchaudio>=2.1.0",
-    "numpy>=1.26.0",
-    "scikit-learn>=1.4.0",
-    "pandas>=2.2.0",
+    "basicts",
+    "tensorboard",
+    "torch",
+    "torchvision",
+    "torchaudio",
+    "numpy",
+    "scikit-learn",
+    "wetterdienst",
+    "polars",
+    "pyarrow",
+    "pandas-stubs",
+    "pandas",
+    "mlflow",
+    "pip>=26.1",
+    "pytest>=9.0.3",
+    "optuna>=4.8.0",
 ]
 
 [tool.uv.sources]
 torch = { index = "pytorch-cuda" }
 torchvision = { index = "pytorch-cuda" }
 torchaudio = { index = "pytorch-cuda" }
+wetterdienst = { git = "https://github.com/earthobservations/wetterdienst" }
 
 [[tool.uv.index]]
 name = "pytorch-cuda"
