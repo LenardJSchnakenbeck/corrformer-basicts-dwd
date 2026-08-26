@@ -1,6 +1,6 @@
 # corrformer-basicts-dwd
 
-Integration of the [Corrformer](https://github.com/thuml/Corrformer) by Wu et al. (2023) spatiotemporal forecasting model into the [BasicTS](https://github.com/zezhishao/BasicTS) framework, using real-world weather data from the German Weather Service (DWD) via the [wetterdienst](https://github.com/earthobservations/wetterdienst) API.
+Integration of the [Corrformer](https://github.com/thuml/Corrformer) by Wu et al. (2023) spatiotemporal forecasting model into the [BasicTS](https://github.com/zezhishao/BasicTS) framework, using real-world weather data from the German Weather Service (DWD) via the [wetterdienst](https://github.com/earthobservations/wetterdienst) API. Integration of MLflow and tests for model- and datavalidation. 
 
 ---
 
@@ -19,6 +19,23 @@ Integration of the [Corrformer](https://github.com/thuml/Corrformer) by Wu et al
 
 Corrformer is a deep learning architecture based on the transformer architecture, but features spatial cross-correlation and temporal auto-correlation instead of attention mechanisms.
 The original implementation was adapted to work with BasicTS and some modules were replaced by their existing BasicTS counterparts (e.g. `MovingAverageDecomposition`).
+
+### MLOps
+
+Datavalidation
+- Compares dataset shape to user-specifyied shape
+- tests for Nan- and Inf-values
+- tests for strictly increasing timestamps
+
+Modelvalidation
+- Compares output shape to user-specifyied shape
+- smoke test on a small slices of the original dataset
+- tests if Loss becomes Inf or Nan
+- overfitting test on a small slices of the original dataset
+
+MLflow integration
+- versioning
+- overview for easy model comparison and evaluation
 
 ---
 
